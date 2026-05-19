@@ -66,22 +66,34 @@ function ScoreBadge({ match }) {
 
 // ── Time/status pill ──────────────────────────────────────────
 function TimePill({ match }) {
-    const { inPlay, timeStatus, eventTypeId, score } = match;
+    const { inPlay, timeStatus, eventTypeId } = match;
+
+    const safeTime =
+        typeof timeStatus === "object"
+            ? timeStatus?.date
+            : timeStatus;
+
     if (inPlay) {
-        // Football minute
         if (eventTypeId === 1) {
-            const isHT = timeStatus === "HT";
+            const isHT = safeTime === "HT";
+
             return (
-                <span className={`pill ${isHT ? "ht" : "live-min"}`}>
-                    {isHT ? "HT" : timeStatus}
+                <span className={`pill ${ isHT ? "ht" : "live-min" } `}>
+                    {isHT ? "HT" : safeTime}
                 </span>
             );
         }
+
         return <span className="pill live-dot">● LIVE</span>;
     }
-    // Upcoming
-    return <span className="pill upcoming-time">{timeStatus}</span>;
+
+    return (
+        <span className="pill upcoming-time">
+            {safeTime || "--"}
+        </span>
+    );
 }
+
 
 // ── Odds button ───────────────────────────────────────────────
 function OddsBtn({ back, lay }) {
@@ -173,6 +185,7 @@ const SportsBook = () => {
                 "https://cache7.live/api/exchange/open/group/sportsbook/0",
                 { headers: { "Content-Type": "application/json" } }
             );
+            console.log(res.data);
             setMatches(parseMatches(res.data));
             setLastUpdated(new Date());
             setError(null);
