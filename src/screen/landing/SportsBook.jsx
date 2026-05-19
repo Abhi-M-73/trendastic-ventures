@@ -21,7 +21,7 @@ function parseMatches(raw) {
                 inPlay: data.inPlay === 1,
                 status: data.status,
                 eventTypeId: data.eventTypeId,
-                date: data.date,
+                date: data.date?.date || data.date,
                 timeStatus: data.timeStatus,
                 score: data.score || null,
                 score2: data.score2 || null,
