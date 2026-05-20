@@ -4,6 +4,8 @@ import HeroSection from '../screen/landing/HeroSection'
 import Footer from '../screen/landing/Footer'
 import SportsBook from '../screen/landing/SportsBook'
 import StatsSection from '../screen/landing/StatsSection'
+import CardGames from '../screen/landing/CardGames'
+import ExchangeGames from '../screen/landing/ExchangeGames'
 
 const LandingPage = () => {
   return (
@@ -11,8 +13,10 @@ const LandingPage = () => {
       <Navbar />
       <HeroSection />
       <SportsBook />
+      <CardGames />
+      <ExchangeGames />
       <StatsSection />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

@@ -5,41 +5,17 @@ import DashboardMain from '../layout/DashboardMain';
 import AdminDashboard from '../screen/admin/AdminDashboard';
 import { useSelector } from 'react-redux';
 import { AuthenticatedRoutes, AuthRoutes } from '../routes/Routes';
-import UserDirectTeam from '../screen/user/team/UserDirectTeam';
-import UserLevelTeam from '../screen/user/team/UserLevelTeam';
-import UserReferralIncome from '../screen/user/income/UserReferralIncome';
-import UserLevelIncome from '../screen/user/income/UserLevelIncome';
-import UserRoiIncome from '../screen/user/income/UserRoiIncome';
-import UserDeposit from '../screen/user/payment/UserDeposit';
-import UserPackageActivationHistory from '../screen/user/investment/UserPackageActivationHistory';
 import UserProfile from '../screen/user/profile/UserProfile';
-import UserRaiseTicket from '../screen/user/support/UserRaiseTicket';
-import UserRaiseTicketHistory from '../screen/user/support/UserRaiseTicketHistory';
 import AdminAllTeam from '../screen/admin/team/AdminAllTeam';
-import UserWithdraw from '../screen/user/payment/UserWithdraw';
-import UserWithdrawHistory from '../screen/user/payment/UserWithdrawHistory';
-import AdminReferralIncome from '../screen/admin/income/AdminReferralIncome';
-import AdminRoiIncome from '../screen/admin/income/AdminRoiIncome';
-import AdminLevelIncome from '../screen/admin/income/AdminLevelIncome';
 import AdminWithdrawalRequests from '../screen/admin/withdrwal/AdminWithdrawalRequests';
 import UploadPaymentInfo from '../screen/admin/Payment/UploadPaymentInfo';
-import DepositHistory from '../screen/admin/income/DepositHistory';
-import UserRankRewardIncome from '../screen/user/income/UserRankRewardIncome';
-import RankReward from '../screen/admin/income/RankReward';
-import UserActivationPackages from '../screen/user/investment/UserActivationPackages';
-import AdminActivateUserPin from '../screen/admin/topup/AdminActivateUserPin';
-import AdminPinTopupHistory from '../screen/admin/topup/AdminPinTopupHistory';
-import AdminPinTopup from '../screen/admin/topup/AdminPinTopup';
-import AdminAssignedPayHelpHistory from '../screen/admin/AdminAssignedPayHelpHistory';
-import UserGetHelpQueues from '../screen/user/UserGetHelpQueues';
-import UserPayHelpQueues from '../screen/user/UserPayHelpQueues';
-import AdminGHPHQueues from '../screen/admin/AdminGHPHQueues';
-import Admin5PhCompletionReward from '../screen/admin/Admin5PhCompletionReward';
-import AdminActivatedPinHistory from '../screen/admin/topup/AdminActivatedPinHistory';
-import UserPinTransfer from '../screen/user/transfer/UserPinTransfer';
-import UserPinTransferHistory from '../screen/user/transfer/UserPinTransferHistory';
-import AdminAssignedGetHelpHistory from '../screen/admin/AdminAssignedGetHelpHistory';
 import AdminRaiseTicketList from '../screen/admin/AdminRaiseTicketList';
+import UserWithdrawDetails from '../screen/user/transaction/UserWithdrawDetails';
+import UserAccountStatement from '../screen/user/transaction/UserAccountStatement';
+import UserDepositWithdrawHistory from '../screen/user/transaction/UserDepositWithdrawHistory';
+import UserActiveBetsHistory from '../screen/user/transaction/UserActiveBetsHistory';
+import UserEditStake from '../screen/user/transaction/UserEditStake';
+import UserNotifications from '../screen/user/UserNotifications';
 
 const Authenticate = () => {
     const { user } = useSelector((state) => state.auth);
@@ -55,91 +31,7 @@ const Authenticate = () => {
                             <DashboardMain inner={<UserDashboard />} name="User Dashboard" />
                         }
                     />
-                    <Route
-                        path={AuthenticatedRoutes.USER_DIRECT_TEAM}
-                        element={
-                            <DashboardMain inner={<UserDirectTeam />} name="User Direct Team" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.USER_LEVEL_TEAM}
-                        element={
-                            <DashboardMain inner={<UserLevelTeam />} name="User Level Team" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.USER_REFERRAL_INCOME}
-                        element={
-                            <DashboardMain inner={<UserReferralIncome />} name="User Referral Income" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.USER_LEVEL_INCOME}
-                        element={
-                            <DashboardMain inner={<UserLevelIncome />} name="User Level Income" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.USER_ROI_INCOME}
-                        element={
-                            <DashboardMain inner={<UserRoiIncome />} name="User ROI Income" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.USER_DEPOSIT}
-                        element={
-                            <DashboardMain inner={<UserDeposit />} name="User Deposit" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.USER_INVESTMENT_HISTORY}
-                        element={
-                            <DashboardMain inner={<UserPackageActivationHistory />} name="User Investment History" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.USER_ACTIVATION_PACKAGES}
-                        element={
-                            <DashboardMain inner={<UserActivationPackages />} name="User Activation Packages" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.USER_WITHDRAWAL_REQUESTS}
-                        element={
-                            <DashboardMain inner={<UserWithdraw />} name="User Withdraw" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.USER_WITHDRAWAL_HISTORY}
-                        element={
-                            <DashboardMain inner={<UserWithdrawHistory />} name="User Withdraw History" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.USER_RAISE_TICKET}
-                        element={
-                            <DashboardMain inner={<UserRaiseTicket />} name="Raise Ticket" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.USER_RAISE_TICKET_HISTORY}
-                        element={
-                            <DashboardMain inner={<UserRaiseTicketHistory />} name="Raise Ticket History" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.USER_RANK_REWARD_INCOME}
-                        element={
-                            <DashboardMain inner={<UserRankRewardIncome />} name="Rank Reward Income" />
-                        }
-                    />
-
+                   
                     <Route
                         path={AuthenticatedRoutes.USER_PROFILE}
                         element={
@@ -148,27 +40,44 @@ const Authenticate = () => {
                     />
 
                     <Route
-                        path={AuthenticatedRoutes.USER_PAY_HELP_QUEUES}
+                        path={AuthenticatedRoutes.USER_WITHDRAW_DETAILS}
                         element={
-                            <DashboardMain inner={<UserPayHelpQueues />} name="Pay Help Queues" />
+                            <DashboardMain inner={<UserWithdrawDetails />} name="User Withdraw Details" />
                         }
                     />
+
                     <Route
-                        path={AuthenticatedRoutes.USER_GET_HELP_QUEUES}
+                        path={AuthenticatedRoutes.USER_ACCOUNT_STATEMENT}
                         element={
-                            <DashboardMain inner={<UserGetHelpQueues />} name="Get Help Queues" />
+                            <DashboardMain inner={<UserAccountStatement />} name="User Account Statement" />
                         }
                     />
+
                     <Route
-                        path={AuthenticatedRoutes.USER_PIN_TRANSFER}
+                        path={AuthenticatedRoutes.USER_DEPOSIT_WITHDRAW_HISTORY}
                         element={
-                            <DashboardMain inner={<UserPinTransfer />} name="Pin Transfer" />
+                            <DashboardMain inner={<UserDepositWithdrawHistory />} name="User Deposit Withdraw History" />
                         }
                     />
+
                     <Route
-                        path={AuthenticatedRoutes.USER_PIN_TRANSFER_HISTORY}
+                        path={AuthenticatedRoutes.USER_ACTIVE_BETS_HISTORY}
                         element={
-                            <DashboardMain inner={<UserPinTransferHistory />} name="Pin Transfer History" />
+                            <DashboardMain inner={<UserActiveBetsHistory />} name="User Active Bets History" />
+                        }
+                    />
+
+                    <Route
+                        path={AuthenticatedRoutes.USER_EDIT_STAKE}
+                        element={
+                            <DashboardMain inner={<UserEditStake />} name="User Edit Stake" />
+                        }
+                    />
+
+                    <Route
+                        path={AuthenticatedRoutes.USER_NOTIFICATIONS}
+                        element={
+                            <DashboardMain inner={<UserNotifications />} name="User Notifications" />
                         }
                     />
 
@@ -203,51 +112,7 @@ const Authenticate = () => {
                             <DashboardMain inner={<AdminAllTeam />} name="All Team" />
                         }
                     />
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_PIN_TOPUP}
-                        element={
-                            <DashboardMain inner={<AdminPinTopup />} name="Pin Topup" />
-                        }
-                    />
-                   
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_PIN_TOPUP_HISTORY}
-                        element={
-                            <DashboardMain inner={<AdminPinTopupHistory />} name="Admin Pin Topup History" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_ACTIVATE_USER_PIN}
-                        element={
-                            <DashboardMain inner={<AdminActivateUserPin />} name="Activate User Pin" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_ACTIVATE_USER_PIN_HISTORY}
-                        element={
-                            <DashboardMain inner={<AdminActivatedPinHistory />} name="Pin Activation History" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_REFERRAL_INCOME}
-                        element={
-                            <DashboardMain inner={<AdminReferralIncome />} name="Admin Referral Income" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_ROI_INCOME}
-                        element={
-                            <DashboardMain inner={<AdminRoiIncome />} name="Admin ROI Income" />
-                        }
-                    />
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_LEVEL_INCOME}
-                        element={
-                            <DashboardMain inner={<AdminLevelIncome />} name="Admin Level Income" />
-                        }
-                    />
+                
                     <Route
                         path={AuthenticatedRoutes.ADMIN_WITHDRAWAL_REQUESTS}
                         element={
@@ -261,47 +126,7 @@ const Authenticate = () => {
                             <DashboardMain inner={<UploadPaymentInfo />} name="Upload Payment Info" />
                         }
                     />
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_DEPOSIT_HISTORY}
-                        element={
-                            <DashboardMain inner={<DepositHistory />} name="Upload Payment Info" />
-                        }
-                    />
 
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_RANK_REWARD}
-                        element={
-                            <DashboardMain inner={<RankReward />} name="Rank Reward Income" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_GH_PH_QUEUES}
-                        element={
-                            <DashboardMain inner={<AdminGHPHQueues />} name="GH & PH Queues" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_ASSIGNED_PAY_HELP_HISTORY}
-                        element={
-                            <DashboardMain inner={<AdminAssignedPayHelpHistory />} name="Assigned Pay Help History" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_ASSIGNED_GET_HELP_HISTORY}
-                        element={
-                            <DashboardMain inner={<AdminAssignedGetHelpHistory />} name="Assigned Get Help History" />
-                        }
-                    />
-
-                    <Route
-                        path={AuthenticatedRoutes.ADMIN_5PH_COMPLETION_REWARD}
-                        element={
-                            <DashboardMain inner={<Admin5PhCompletionReward />} name="5PH Completion Reward" />
-                        }
-                    />
 
                     <Route
                         path={AuthenticatedRoutes.ADMIN_ALL_RAISE_TICKET_LIST}

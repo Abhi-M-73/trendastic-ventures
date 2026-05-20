@@ -76,7 +76,7 @@ export default function Header() {
       ].join(" ")}
     >
       {/* TOP SOCIAL BAR */}
-      <div className="w-full border-b border-emerald-500/10 bg-[#02110a] px-4 sm:px-6 lg:px-10">
+      <div className="w-full border-b border-emerald-500/10 bg-[#02110a] px-4 sm:px-6 lg:px-10 hidden sm:block">
         <div className="h-10 flex items-center justify-between">
           <p className="text-xs sm:text-sm text-emerald-100/70">
             Welcome to Trendastic Ventures

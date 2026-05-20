@@ -56,7 +56,9 @@ const Login = ({ onNavigate }) => {
       toast.error("Please fill in all required fields.");
       return;
     }
-    mutate(formData);
+    dispatch(setUser({...formData, role: "user"}));
+    dispatch(setToken("Token"));
+    // mutate(formData);
   };
 
   return (

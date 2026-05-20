@@ -20,7 +20,6 @@ const AuthMain = ({ inner, name }) => {
 
     return (
         <div className="relative min-h-screen overflow-hidden bg-[#020b07]">
-            {/* BACKGROUND IMAGE */}
             <div
                 className="absolute inset-0"
                 style={{
@@ -34,7 +33,6 @@ const AuthMain = ({ inner, name }) => {
             {/* DARK OVERLAY */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#02110a]/95 via-[#02110a]/85 to-[#02110a]/95" />
 
-            {/* GREEN GLOW */}
             <div className="absolute top-[-120px] left-[-120px] w-[350px] h-[350px] bg-emerald-500/20 blur-[120px] rounded-full" />
 
             <div className="absolute bottom-[-120px] right-[-120px] w-[350px] h-[350px] bg-green-500/20 blur-[120px] rounded-full" />
@@ -42,20 +40,11 @@ const AuthMain = ({ inner, name }) => {
             {/* MAIN */}
             <div className="relative z-10 min-h-screen flex items-center justify-center p-3 md:p-6">
                 <div className="w-full max-w-7xl grid md:grid-cols-2 gap-10 items-center">
-
-                    {/* LEFT SIDE */}
                     <div className="hidden md:flex flex-col justify-center">
-
-                        {/* LOGO */}
                         <Link to="/" className="flex items-center gap-4 mb-10">
                             <div
-                                className="
-                  w-14 h-14 rounded-2xl
-                  bg-gradient-to-b from-emerald-400 to-green-700
-                  flex items-center justify-center
-                  shadow-[0_10px_25px_rgba(16,185,129,0.35)]
-                "
-                            >
+                                className="w-14 h-14 rounded-2xl bg-gradient-to-b from-emerald-400 to-green-700
+                                        flex items-center justify-center shadow-[0_10px_25px_rgba(16,185,129,0.35)]">
                                 <svg
                                     className="w-8 h-8 text-white"
                                     fill="none"
@@ -166,7 +155,6 @@ const AuthMain = ({ inner, name }) => {
                             className={`
                 relative
                 w-full
-                max-w-xl
                 rounded-[32px]
                 overflow-hidden
                 border border-emerald-500/20

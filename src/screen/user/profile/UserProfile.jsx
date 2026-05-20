@@ -2,12 +2,50 @@ import React, { useState } from "react";
 import ReusableForm from "../../../components/ui/ReusableForm";
 import { useSelector } from "react-redux";
 import ReusableButton from "../../../components/ui/ReusableButton";
-import { CircleUser, Mail, Phone, User, Share2, File as FileIcon, Wallet, PhoneCall, Copy, Link } from "lucide-react";
+import {
+    CircleUser, Mail, PhoneCall, User, Share2, Wallet,
+    Copy, Link2, LogOut, ChevronRight, Lock, FileText,
+    CreditCard, BookOpen, Home, Shield, ArrowUpCircle,
+    ArrowDownCircle, CheckCircle2, Save
+} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { updateUserProfile } from "../../../api/user.api";
 import { toast } from "react-hot-toast";
 import useFetchProfile from "../../../hooks/usefetchProfile";
 
+/* ─── small helpers ─────────────────────────────── */
+const StatBox = ({ label, value, valueClass = "text-emerald-400" }) => (
+    <div className="bg-white/[0.03] border border-white/[0.07] rounded-2xl p-4">
+        <p className="text-[11px] uppercase tracking-widest text-slate-500 font-semibold">{label}</p>
+        <p className={`text-xl font-bold mt-1 ${valueClass}`}>{value}</p>
+    </div>
+);
+
+const FieldRow = ({ icon: Icon, label, value, suffix }) => (
+    <div className="flex items-center gap-3 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3">
+        <Icon size={16} className="text-emerald-400 shrink-0" />
+        <div className="flex-1 min-w-0">
+            <p className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold">{label}</p>
+            <p className="text-sm font-semibold text-slate-200 mt-0.5 truncate">{value}</p>
+        </div>
+        {suffix}
+    </div>
+);
+
+const MenuItem = ({ icon: Icon, title, desc }) => (
+    <div className="group flex items-center gap-4 px-5 py-4 border-b border-white/[0.05] last:border-b-0 hover:bg-emerald-500/[0.06] transition-colors cursor-pointer">
+        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+            <Icon size={18} className="text-emerald-400" />
+        </div>
+        <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-slate-200">{title}</p>
+            <p className="text-xs text-slate-500 mt-0.5">{desc}</p>
+        </div>
+        <ChevronRight size={16} className="text-slate-600 group-hover:text-emerald-400 transition-colors" />
+    </div>
+);
+
+/* ─── main component ─────────────────────────────── */
 const UserProfile = () => {
     const { fetchProfile } = useFetchProfile();
     const userInfo = useSelector((state) => state.auth?.user);
@@ -35,18 +73,18 @@ const UserProfile = () => {
 
     const handleInputChange = (e) => {
         const { name, value, files, type } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === "file" ? files[0] : value,
+        }));
+    };
 
-        if (type === "file") {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: files[0],
-            }));
-        } else {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
+    const handleBankInputChange = (e) => {
+        const { name, value } = e.target;
+        setBankDetails((prev) => ({
+            ...prev,
+            [name]: name === "ifscCode" ? value.toUpperCase() : value,
+        }));
     };
 
     const { mutate: updateProfile, isPending } = useMutation({
@@ -57,348 +95,121 @@ const UserProfile = () => {
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message || "Failed to update profile.");
-        }
-    })
-
-    const handleUpdateProfile = () => {
-        const payload = new FormData();
-        payload.append("email", formData.email);
-        payload.append("walletAddress", formData.walletAddress);
-        payload.append("type", "profile");
-        if (formData.profileImage instanceof File) {
-            payload.append("file", formData.profileImage);
-        }
-        updateProfile(payload);
-    };
-
-    // Derived values from userInfo
-    const accountStatus = userInfo?.isVerified === true ? "Active" : "Inactive";
-    const isActive = Boolean(userInfo?.isVerified);
-    const joinedDate = userInfo?.createdAt
-        ? new Date(userInfo.createdAt).toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-        })
-        : "—";
-
-    const totalInvestment = userInfo?.totalInvestment ?? 0;
-    const totalEarnings = userInfo?.totalEarnings ?? 0;
-    const level = userInfo?.level ?? "-";
-    const referralCount = userInfo?.referredUsers?.length ?? 0;
-
-
-    const handleBankInputChange = (e) => {
-        const { name, value } = e.target;
-
-        setBankDetails((prev) => ({
-            ...prev,
-            [name]: name === "ifscCode"
-                ? value.toUpperCase()
-                : value,
-        }));
-    };
+        },
+    });
 
     const handleUpdateBankDetails = () => {
-        const formData = new FormData();
-        formData.append("bankName", bankDetails.bankName);
-        formData.append("accountNumber", bankDetails.accountNumber);
-        formData.append("upiId", bankDetails.upiId);
-        formData.append("IFSCCode", bankDetails.ifscCode);
-        formData.append("googlePayNumber", bankDetails.googlePayNumber);
-        formData.append("phonePayNumber", bankDetails.phonePayNumber);
-        formData.append("walletAddress", bankDetails.walletAddress);
-        updateProfile(formData);
+        const fd = new FormData();
+        fd.append("bankName", bankDetails.bankName);
+        fd.append("accountNumber", bankDetails.accountNumber);
+        fd.append("upiId", bankDetails.upiId);
+        fd.append("IFSCCode", bankDetails.ifscCode);
+        fd.append("googlePayNumber", bankDetails.googlePayNumber);
+        fd.append("phonePayNumber", bankDetails.phonePayNumber);
+        fd.append("walletAddress", bankDetails.walletAddress);
+        updateProfile(fd);
     };
 
+    /* derived */
+    const isActive = Boolean(userInfo?.isVerified);
+    const joinedDate = userInfo?.createdAt
+        ? new Date(userInfo.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+        : "—";
 
     const copyReferralCode = () => {
         navigator.clipboard.writeText(userInfo?.referralCode);
-        toast.success("Referral code copied to clipboard.");
-      }
+        toast.success("Referral code copied!");
+    };
 
     const copyReferralLink = () => {
-        const link = `${window.location.origin}/register?ref=${userInfo?.referralCode}`;
-        navigator.clipboard.writeText(link);
-        toast.success("Referral link copied to clipboard.");
-    }
+        navigator.clipboard.writeText(`${window.location.origin}/register?ref=${userInfo?.referralCode}`);
+        toast.success("Referral link copied!");
+    };
+
+    const initials = userInfo?.username?.charAt(0)?.toUpperCase() ?? "U";
 
     return (
-        <div>
-            <div className="w-full border border-[var(--btnColor)]/40 rounded-lg shadow-xl backdrop-blur-md p-6 md:p-8 grid grid-cols-1 lg:grid-cols-[1.1fr_1.4fr] gap-8">
-                {/* LEFT SECTION */}
-                <div className="flex flex-col items-center gap-6 border-b lg:border-b-0 lg:border-r border-slate-800 pb-6 lg:pb-0 lg:pr-6">
-                    {/* Avatar */}
-                    <div className="relative">
-                        <div className="h-28 w-28 rounded-full bg-gradient-to-br from-emerald-500 via-cyan-500 to-blue-600 flex items-center justify-center shadow-lg">
-                            {
-                                userInfo?.profileImage ? (
-                                    <img
-                                        src={userInfo.profileImage}
-                                        alt="Profile"
-                                        className="h-full w-full rounded-full object-cover"
-                                    />
-                                ) : (
-                                    <span className="text-3xl font-semibold text-white">
-                                        {userInfo?.username
-                                            ? userInfo.username.charAt(0).toUpperCase()
-                                            : "U"}
-                                    </span>
-                                )
+        <div className="flex flex-col gap-4 font-sans p-5">
+            <div className="bg-[#0f1f18] border border-emerald-500/15 rounded-2xl overflow-hidden">
+                <div className="flex items-center gap-4 p-5">
+                    <div className="relative shrink-0">
+                        <div className="w-[72px] h-[72px] rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center border-[3px] border-emerald-500/30 shadow-lg">
+                            {userInfo?.profileImage
+                                ? <img src={userInfo.profileImage} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                                : <span className="text-2xl font-bold text-white">{initials}</span>}
+                        </div>
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                        <h2 className="text-lg font-bold text-slate-100">{userInfo?.username || "User Name"}</h2>
+                        <p className="text-sm font-semibold text-slate-300 mt-0.5">{joinedDate}</p>
+                    </div>
+
+                    <div className="text-right shrink-0">
+                        <p className="text-lg text-slate-300  tracking-wider font-semibold">Change Password</p>
+                    </div>
+                </div>
+
+                <div className="border-t border-white/[0.07] mx-5" />
+
+                {/* Stats grid */}
+                <div className="p-5">
+                    <div className="flex items-center justify-between bg-emerald-500/[0.08] border border-emerald-500/20 rounded-xl p-5 gap-4">
+                        <div>
+                            <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold">Wallet Balance</p>
+                            <p className="text-4xl font-bold text-emerald-400 mt-2 tracking-tight">
+                                ₹ {userInfo?.walletBalance || 0}
+                            </p>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <button className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-all hover:-translate-y-0.5">
+                                <ArrowUpCircle size={15} /> Deposit
+                            </button>
+                            <button className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-all hover:-translate-y-0.5">
+                                <ArrowDownCircle size={15} /> Withdraw
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-[#0f1f18] border border-emerald-500/15 rounded-2xl p-5">
+                    <h2 className="text-base font-bold text-slate-100">Profile Details</h2>
+                    <p className="text-xs text-slate-500 mt-0.5 mb-4">Your account information</p>
+                    <div className="flex flex-col gap-2.5">
+                        <FieldRow icon={User} label="Userid" value={formData.username || "—"} />
+                        <FieldRow icon={PhoneCall} label="Phone" value={formData.phone || "—"} />
+                        <FieldRow
+                            icon={Link2}
+                            label="Referral Link"
+                            value={`${window.location.origin}/register?ref=${userInfo?.referralCode}`}
+                            suffix={
+                                <button onClick={copyReferralLink} className="shrink-0 p-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 transition-colors">
+                                    <Copy size={13} className="text-emerald-400" />
+                                </button>
                             }
-                        </div>
-                        <div className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center shadow-md">
-                            <CircleUser className="h-5 w-5 text-white" />
-                        </div>
-                    </div>
-
-                    {/* Basic Info */}
-                    <div className="text-center space-y-1">
-                        <h1 className="text-xl md:text-2xl font-semibold text-white">
-                            {userInfo?.username || "User Name"}
-                        </h1>
-
-                        {userInfo?.referralCode && (
-                            <p className="text-sm text-[var(--btnColor)] bg-emerald-500/10 inline-flex items-center gap-2 px-3 py-1 rounded-full mt-2">
-                                <Share2 className="h-3 w-3" />
-                                Referral Code:{" "}
-                                <span className="font-medium">{userInfo.referralCode}</span>
-                                <Copy className="h-4 w-4 cursor-pointer" onClick={copyReferralCode} />
-                            </p>
-                        )}
-                    </div>
-
-                    <div className="w-full grid grid-cols-2 gap-3 mt-2">
-                        <div className="border border-[var(--btnColor)]/40 rounded-xl p-3 text-center">
-                            <p className="text-xs text-gray-300">Account Status</p>
-                            <p
-                                className={`text-lg font-semibold mt-1 ${isActive ? "text-green-400" : "text-red-500"
-                                    }`}
-                            >
-                                {accountStatus}
-                            </p>
-                        </div>
-
-                        <div className="border border-[var(--btnColor)]/40 rounded-xl p-3 text-center">
-                            <p className="text-xs text-gray-300">Joined</p>
-                            <p className="text-lg font-semibold text-slate-200 mt-1">
-                                {joinedDate}
-                            </p>
-                        </div>
-
-                        <div className="border border-[var(--btnColor)]/40 rounded-xl p-3 text-center">
-                            <p className="text-xs text-gray-300">Total GH Amount</p>
-                            <p className="text-lg font-semibold text-[var(--btnColor)] mt-1">
-                                ₹ {userInfo?.getHelpTotalAmount?.toFixed(2) || 0}
-                            </p>
-                        </div>
-
-                        <div className="border border-[var(--btnColor)]/40 rounded-xl p-3 text-center">
-                            <p className="text-xs text-gray-300">Total PH Amount</p>
-                            <p className="text-lg font-semibold text-[var(--btnColor)] mt-1">
-                                ₹ {userInfo?.payHelpTotalAmount?.toFixed(2) || 0}
-                            </p>
-                        </div>
-                        <div className="border border-[var(--btnColor)]/40 rounded-xl p-3 text-center">
-                            <p className="text-xs text-gray-300">Sponsor Code</p>
-                            <p className="text-lg font-semibold text-[var(--btnColor)] mt-1">
-                                {userInfo?.sponsorCode || "N/A"}
-                            </p>
-                        </div>
+                        />
                     </div>
                 </div>
 
-                <div className="space-y-6">
-                    <div>
-                        <h2 className="text-lg md:text-2xl font-semibold text-white">
-                            Profile Details
-                        </h2>
-                        <p className="text-sm text-slate-300 mt-1">
-                            Update your basic information. These details help us personalize
-                            your experience.
-                        </p>
+                <div className="bg-[#0f1f18] border border-emerald-500/15 rounded-2xl overflow-hidden">
+                    <div className="px-5 pt-4 pb-2">
+                        <h2 className="text-base font-bold text-slate-100">Quick Access</h2>
                     </div>
-
-                    <div className="space-y-4">
-                        <ReusableForm
-                            type="text"
-                            label="Name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            disabled={true} // usually username fix hota hai
-                            icon={User}
-                        />
-
-                        <ReusableForm
-                            type="text"
-                            label="Username"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleInputChange}
-                            required={true}
-                            disabled={true} // usually username fix hota hai
-                            icon={User}
-                        />
-
-                        <ReusableForm
-                            type="email"
-                            label="Email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required={true}
-                            icon={Mail}
-                            disabled={true}
-                        />
-                        <ReusableForm
-                            type="number"
-                            label="Phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            required={true}
-                            icon={PhoneCall}
-                            disabled={true}
-                        />
-
-                        <div className=" text-gray-100">
-                            <div className='border border-gray-600 rounded-lg p-3 w-full flex items-center justify-between gap-4'>
-                                <div className="flex items-center gap-2">
-                                    <Link size={18} className="hidden md:block text-[var(--btnColor)]" />
-                                    <h3 className="text-lg font-medium text-[var(--btnColor)] break-all">
-                                        {window.location.origin}/{userInfo?.referralCode}
-                                    </h3>
-                                </div>
-                                <Copy onClick={copyReferralLink} />
-                            </div>
-                        </div>
-
-
-                        {/* <ReusableForm
-                        type="file"
-                        label="Profile Image"
-                        name="profileImage"
-                        value={formData.profileImage}
-                        onChange={handleInputChange}
-                        required={false}
-                        icon={FileIcon}
-                    /> */}
-                    </div>
-
-                    {/* <div className="w-full flex items-center justify-end pt-2">
-                    <ReusableButton
-                        label="Update Profile"
-                        onClick={handleUpdateProfile}
-                        loading={isPending}
-                        disabled={isPending}
-                        icon={CircleUser}
-                        variant="primary"
-                        type="button"
-                        className="w-fit"
-                    />
-                </div> */}
+                    <MenuItem icon={Shield} title="Active Bets" desc="View all running bets" />
+                    <MenuItem icon={FileText} title="Account Statement" desc="Check all transactions" />
+                    <MenuItem icon={CreditCard} title="Deposit / Withdraw Report" desc="Track payment history" />
+                    <MenuItem icon={BookOpen} title="Rules" desc="Read betting guidelines" />
+                    <MenuItem icon={Home} title="Banking" desc="Manage bank details" />
                 </div>
             </div>
-            <div>
-                <div className="mt-6 border border-[var(--btnColor)]/40 rounded-lg shadow-xl backdrop-blur-md p-6 md:p-8">
-                    <div className="mb-5">
-                        <h2 className="text-xl md:text-2xl font-semibold text-white">
-                            Bank Details
-                        </h2>
-                        <p className="text-sm text-slate-300 mt-1">
-                            Add your withdrawal bank details.
-                        </p>
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ReusableForm
-                            type="text"
-                            label="Bank Name"
-                            name="bankName"
-                            value={bankDetails.bankName}
-                            onChange={handleBankInputChange}
-                            icon={Wallet}
-                            placeholder="Enter Bank Name"
-                        />
-
-                        <ReusableForm
-                            type="number"
-                            label="Account Number"
-                            name="accountNumber"
-                            value={bankDetails.accountNumber}
-                            onChange={handleBankInputChange}
-                            icon={Wallet}
-                            placeholder="Enter Account Number"
-                        />
-
-                        <ReusableForm
-                            type="text"
-                            label="IFSC Code"
-                            name="ifscCode"
-                            value={bankDetails.ifscCode}
-                            onChange={handleBankInputChange}
-                            icon={Wallet}
-                            placeholder="Enter IFSC Code"
-                        />
-
-                        <ReusableForm
-                            type="text"
-                            label="UPI ID (Optional)"
-                            name="upiId"
-                            value={bankDetails.upiId}
-                            onChange={handleBankInputChange}
-                            icon={Wallet}
-                            placeholder="Enter UPI ID"
-                        />
-
-                        <ReusableForm
-                            type="number"
-                            label="Google Pay Number"
-                            name="googlePayNumber"
-                            value={bankDetails.googlePayNumber}
-                            onChange={handleBankInputChange}
-                            icon={Phone}
-                            placeholder="Enter Google Pay Number"
-                        />
-
-                        <ReusableForm
-                            type="number"
-                            label="Phone Pay Number"
-                            name="phonePayNumber"
-                            value={bankDetails.phonePayNumber}
-                            onChange={handleBankInputChange}
-                            icon={Phone}
-                            placeholder="Enter Phone Pay Number"
-                        />
-
-                        <div className="md:col-span-2">
-                            <ReusableForm
-                                type="text"
-                                label="Wallet Address (USDT BEP20)"
-                                name="walletAddress"
-                                value={bankDetails.walletAddress}
-                                onChange={handleBankInputChange}
-                                icon={Wallet}
-                                placeholder="Enter Wallet Address (USDT BEP20)"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex justify-end mt-5">
-                        <ReusableButton
-                            label="Save Bank Details"
-                            onClick={handleUpdateBankDetails}
-                            loading={isPending}
-                            disabled={isPending}
-                            icon={Wallet}
-                            variant="primary"
-                            type="button"
-                            className="w-fit"
-                        />
-                    </div>
-                </div>
-            </div>
+            {/* ── LOGOUT ── */}
+            <button className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 font-semibold text-sm hover:bg-red-500/20 transition-colors">
+                <LogOut size={16} />
+                Logout
+            </button>
         </div>
     );
 };

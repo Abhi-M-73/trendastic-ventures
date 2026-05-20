@@ -167,7 +167,7 @@ function RefreshRing({ countdown, total }) {
 }
 
 // ── Main component ────────────────────────────────────────────
-const REFRESH_INTERVAL = 15;
+const REFRESH_INTERVAL = 1;
 
 const SportsBook = () => {
     const [matches, setMatches] = useState([]);
@@ -185,7 +185,6 @@ const SportsBook = () => {
                 "https://cache7.live/api/exchange/open/group/sportsbook/0",
                 { headers: { "Content-Type": "application/json" } }
             );
-            console.log(res.data);
             setMatches(parseMatches(res.data));
             setLastUpdated(new Date());
             setError(null);
@@ -230,7 +229,7 @@ const SportsBook = () => {
 
         .sb-root {
           font-family: 'DM Sans', sans-serif;
-          background: #050e0a;
+          background: black;
           min-height: 100vh;
           padding-bottom: 24px;
           color: #e2f5ec;

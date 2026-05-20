@@ -1,128 +1,177 @@
 import React from "react";
 import {
-  Mail,
-  MapPin,
-  Send,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
-} from "lucide-react";
-import { MainContent } from "../../utils/mainContent";
+  FaTelegramPlane,
+  FaInstagram,
+  FaTwitter,
+  FaDiscord,
+} from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="relative bg-gradient-to-b from-black via-slate-950 to-slate-black text-white overflow-hidden border-t border-slate-800">
-      <div className="absolute top-0 left-10 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl opacity-50" />
-      <div className="absolute bottom-0 right-10 w-40 h-40 bg-yellow-600/5 rounded-full blur-3xl opacity-30" />
-      <div className="relative z-10 md:w-[90%] w-full mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12">
+    <footer className="relative bg-[#020707] overflow-hidden border-t border-teal-500/10">
+
+      {/* GRID BG */}
+      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:70px_70px]" />
+
+      {/* GLOW */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-teal-500/10 blur-[140px] rounded-full pointer-events-none" />
+
+      <div className="max-w-[92%] mx-auto relative z-10">
+
+        {/* TOP */}
+        <div className="py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+          {/* BRAND */}
           <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-2 h-8 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-full" />
-              <h2 className="text-xl font-bold">
-                {MainContent.appName}
-              </h2>
-            </div>
+            <h2 className="text-3xl font-black text-white mb-4 tracking-wide">
+              TRENDASTIC  <br /><span className="text-teal-400">VENTURES</span>
+            </h2>
 
-            <h3 className="text-3xl font-bold mb-4 leading-tight">
-              Community-Based
-              <br />
-              <span className="bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent">
-                Participation System
-              </span>
-            </h3>
-
-            <p className="text-slate-300 text-sm leading-relaxed mb-6">
-              A structured peer-to-peer system where participants follow a clear process of contributing and receiving support within a community environment.
+            <p className="text-gray-400 leading-relaxed text-sm">
+              Experience next generation AI powered betting,
+              live casino, exchange games, card arena and
+              ultra secure transactions with real-time action.
             </p>
 
-            {/* Social */}
-            <div className="flex gap-4 mt-4">
-              {[Facebook, Twitter, Linkedin, Instagram].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg hover:bg-yellow-500/20 transition"
-                >
-                  <Icon className="w-5 h-5 text-yellow-400" />
-                </a>
-              ))}
+            {/* SOCIALS */}
+            <div className="flex items-center gap-4 mt-6">
+
+              <a
+                href="#"
+                className="w-11 h-11 rounded-2xl border border-teal-400/10 bg-white/5 flex items-center justify-center text-gray-300 hover:text-teal-300 hover:border-teal-400/30 transition-all duration-300"
+              >
+                <FaTelegramPlane size={18} />
+              </a>
+
+              <a
+                href="#"
+                className="w-11 h-11 rounded-2xl border border-teal-400/10 bg-white/5 flex items-center justify-center text-gray-300 hover:text-pink-400 hover:border-pink-400/30 transition-all duration-300"
+              >
+                <FaInstagram size={18} />
+              </a>
+
+              <a
+                href="#"
+                className="w-11 h-11 rounded-2xl border border-teal-400/10 bg-white/5 flex items-center justify-center text-gray-300 hover:text-sky-400 hover:border-sky-400/30 transition-all duration-300"
+              >
+                <FaTwitter size={18} />
+              </a>
+
+              <a
+                href="#"
+                className="w-11 h-11 rounded-2xl border border-teal-400/10 bg-white/5 flex items-center justify-center text-gray-300 hover:text-indigo-400 hover:border-indigo-400/30 transition-all duration-300"
+              >
+                <FaDiscord size={18} />
+              </a>
+
             </div>
           </div>
 
-          {/* Why Choose Us */}
+          {/* QUICK LINKS */}
           <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-2 h-8 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-full" />
-              <h3 className="text-xl font-bold">
-                WHY CHOOSE US
-              </h3>
-            </div>
+            <h3 className="text-white text-lg font-bold mb-5">
+              Quick Links
+            </h3>
 
-            <div className="space-y-3 text-slate-300 text-sm mb-6">
-              <p>• Simple and structured process</p>
-              <p>• Transparent participation flow</p>
-              <p>• Community-driven system</p>
-              <p>• Clear step-by-step guidance</p>
+            <div className="flex flex-col gap-3 text-gray-400 text-sm">
+
+              <a href="#" className="hover:text-teal-300 transition-all">
+                Home
+              </a>
+
+              <a href="#" className="hover:text-teal-300 transition-all">
+                Sports Betting
+              </a>
+
+              <a href="#" className="hover:text-teal-300 transition-all">
+                Exchange Games
+              </a>
+
+              <a href="#" className="hover:text-teal-300 transition-all">
+                Live Casino
+              </a>
+
+              <a href="#" className="hover:text-teal-300 transition-all">
+                Promotions
+              </a>
+
             </div>
           </div>
 
-          {/* Contact */}
+          {/* FEATURES */}
           <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-2 h-8 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-full" />
-              <h3 className="text-xl font-bold">
-                CONTACT US
-              </h3>
+            <h3 className="text-white text-lg font-bold mb-5">
+              Platform Features
+            </h3>
+
+            <div className="flex flex-col gap-3 text-gray-400 text-sm">
+
+              <p>⚡ Instant Withdrawals</p>
+              <p>🔒 Secure Wallet System</p>
+              <p>🎮 500+ Premium Games</p>
+              <p>📈 Real-Time Exchange Market</p>
+              <p>🤖 AI Prediction Engine</p>
+
             </div>
+          </div>
 
-            <div className="space-y-5">
+          {/* CONTACT */}
+          <div>
+            <h3 className="text-white text-lg font-bold mb-5">
+              Contact
+            </h3>
 
-              <div className="flex gap-3">
-                <MapPin className="w-6 h-6 text-yellow-400" />
-                <p className="text-slate-300 text-sm">
-                  {MainContent.address}
-                </p>
+            <div className="flex flex-col gap-4 text-sm text-gray-400">
+
+              <div className="flex items-center gap-3">
+                <MdEmail className="text-teal-400 text-xl" />
+                support@trendatic.com
               </div>
 
-              <a
-                href={`mailto:${MainContent.email}`}
-                className="flex gap-3 hover:opacity-80"
-              >
-                <Mail className="w-6 h-6 text-yellow-400" />
-                <p className="text-slate-300 text-sm">
-                  {MainContent.email}
-                </p>
-              </a>
+              <div className="p-4 rounded-3xl border border-teal-400/10 bg-white/5 backdrop-blur-xl">
 
-              <a
-                href={MainContent.telegram_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex gap-3 hover:opacity-80"
-              >
-                <Send className="w-6 h-6 text-yellow-400" />
-                <p className="text-slate-300 text-sm">
-                  Join our community on Telegram
+                <p className="text-white font-semibold mb-2">
+                  24/7 Live Support
                 </p>
-              </a>
+
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Our support team is available anytime for deposits,
+                  withdrawals, betting assistance and account help.
+                </p>
+
+              </div>
 
             </div>
           </div>
+
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-slate-400/40 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-slate-300">
-          <p>© {currentYear} {MainContent.appName}. All rights reserved.</p>
+        {/* BOTTOM */}
+        <div className="border-t border-teal-500/10 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
 
-          <div className="flex gap-6 mt-3 md:mt-0">
-            <a href="#" className="hover:text-yellow-400">Privacy</a>
-            <a href="#" className="hover:text-yellow-400">Terms</a>
+          <p className="text-gray-500 text-sm text-center md:text-left">
+            © 2026 BETNEX. All rights reserved.
+          </p>
+
+          <div className="flex items-center gap-6 text-sm text-gray-500">
+
+            <a href="#" className="hover:text-teal-300 transition-all">
+              Privacy Policy
+            </a>
+
+            <a href="#" className="hover:text-teal-300 transition-all">
+              Terms & Conditions
+            </a>
+
+            <a href="#" className="hover:text-teal-300 transition-all">
+              Responsible Gaming
+            </a>
+
           </div>
+
         </div>
+
       </div>
     </footer>
   );

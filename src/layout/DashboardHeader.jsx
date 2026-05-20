@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bell, LogOut, UserCircle2 } from 'lucide-react';
+import { Bell, LogOut, Menu, UserCircle2, X } from 'lucide-react';
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
 import { useLocation } from "react-router-dom";
-const DashboardHeader = () => {
+import { MainContent } from '../utils/mainContent';
+const DashboardHeader = ({ isOpen, setIsOpen }) => {
   const { role, username, email, profileImage } = useSelector((state) => state?.auth?.user) || {};
   const [open, setOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -60,15 +61,25 @@ const DashboardHeader = () => {
   return (
     <div className="bg-black/60 sticky top-0 z-30 backdrop-blur-2xl border-b border-gray-700 shadow-sm w-full">
       <div className="px-4 sm:px-6 py-3 sm:py-4">
-        {/* Small screen pe column, bade screen pe row */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ">
-          <div className="min-w-0 hidden sm:block">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-100 truncate">
-              <span className="text-[var(--btnColor)]">
-                {last && `  ${last.charAt(0).toUpperCase() + last.slice(1)}`}
-              </span>
-            </h1>
-            <p className="text-xs sm:text-sm text-gray-200 mt-1">{currentDate}</p>
+        <div className="flex gap-3 sm:flex-row sm:items-center justify-between ">
+          <div className='flex items-center gap-2'>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-lg text-white hover:bg-white/10 transition-all"
+            >
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+            <div className="min-w-0 hidden sm:block">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-100 truncate">
+                <span className="text-[var(--btnColor)]">
+                  {MainContent.appName}
+                </span>
+              </h1>
+            </div>
           </div>
 
           {/* RIGHT SIDE ICONS + PROFILE */}
@@ -83,11 +94,6 @@ const DashboardHeader = () => {
                 <AiOutlineFullscreen className="w-5 h-5 sm:w-6 sm:h-6" />
               )}
             </button>
-
-            {/* <button className="relative p-1.5 sm:p-2 rounded-lg text-white hover:text-black hover:bg-gray-100 transition-colors shrink-0">
-              <Bell className="w-5 h-5 sm:w-6 sm:h-6" />
-              <span className="absolute top-1 right-1 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full"></span>
-            </button> */}
 
             <button
               onClick={() => setOpen(!open)}

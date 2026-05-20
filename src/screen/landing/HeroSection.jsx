@@ -140,7 +140,7 @@ export default function HeroSection() {
 
  
   return (
-    <div className="w-full min-h-screen bg-[#04130d] pt-32">
+    <div className="w-full min-h-screen bg-black md:pt-30 pt-20">
       <BannerSlider />
 
       {/* ── PROMO PILLS ── */}
